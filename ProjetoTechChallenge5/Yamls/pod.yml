@@ -1,0 +1,12 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: projectapipod
+  labels:
+    app: projectapipod
+spec:
+  containers:
+    - name: projectapipod
+      image: lucasduartep/techchallenge:latest
+      ports:
+        - containerPort: 80

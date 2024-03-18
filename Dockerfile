@@ -3,21 +3,21 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
+EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["ProjetoTechChallenge5/ProjetoTechChallenge5.csproj", "ProjetoTechChallenge5/"]
-RUN dotnet restore "./ProjetoTechChallenge5/ProjetoTechChallenge5.csproj"
+RUN dotnet restore "ProjetoTechChallenge5/ProjetoTechChallenge5.csproj"
 COPY . .
 WORKDIR "/src/ProjetoTechChallenge5"
-RUN dotnet build "./ProjetoTechChallenge5.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "ProjetoTechChallenge5.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./ProjetoTechChallenge5.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ProjetoTechChallenge5.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
